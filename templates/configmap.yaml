@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "order-microservice.fullname" . }}-cm
+  labels:
+    {{- include "order-microservice.labels" . | nindent 4 }}
+data:
+  application-dev.yaml: |-
+    app:
+      orderCount: {{ .Values.configMap.dev.orderCount }}
+    server:
+      port: {{ .Values.configMap.dev.serverPort }}
+    spring:
+      datasource:
+        url: jdbc:h2:mem:orders_db
+      jpa:
+        show-sql: true
+        hibernate:
+          ddl-auto: create
+        properties:
+          hibernate:
+            format_sql: true
+    {{- toYaml .Values.spring.additionalConfig | nindent 4 }}

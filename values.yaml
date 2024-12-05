@@ -1,0 +1,46 @@
+# Default values for order-microservice
+replicaCount: 2
+
+image:
+  repository: classpathio/order-microservice
+  tag: "3.0.0"
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: docker-credentials
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  name: ""
+
+podAnnotations: {}
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8222
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+spring:
+  profile: dev
+  datasource:
+    username: sa
+    password: welcome
+
+configMap:
+  dev:
+    orderCount: 10
+    serverPort: 8222
+  qa:
+    orderCount: 10
+    serverPort: 8333
